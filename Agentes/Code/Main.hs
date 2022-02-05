@@ -30,12 +30,12 @@ where
         
     
     pint::Ambiente -> Ambiente -> Int -> Int -> Int -> Int -> Int -> IO()
-    pint amb1@Ambiente { corral=cor1, suciedad = suc1,lrandom=ran1, dimension = (n,m)} amb2@Ambiente{corral=cor2, suciedad = suc2,lrandom=ran2} tmp tmpC cnin crob cobs = if tmp==0
+    pint amb1@Ambiente {ninos = nin1, corral = cor1, obstaculo = obs1, robot = rob1, suciedad = suc1,lrandom=ran1, dimension = (n1,m1)} amb2@Ambiente{ninos = nin2, corral = cor2, obstaculo = obs2, robot = rob2, suciedad = suc2,lrandom=ran2, dimension = (n2,m2)} tmp tmpC cnin crob cobs = if (tmp==0) 
         then do 
             putStrLn "***Fin del Tiempo***"
-            pint (generaObstaculo (generaRobot (generaNino (Ambiente {ninos = [], corral = cor1, obstaculo = [], robot = [], suciedad = suc1,lrandom = ran1, dimension = (n,m)}) cnin) crob) cobs) (generaObstaculo (generaRobot (generaNino (Ambiente {ninos = [], corral = cor2, obstaculo = [], robot = [], suciedad = suc2,lrandom = ran2, dimension = (n,m)}) cnin) crob) cobs) tmpC tmpC cnin crob cobs
+            pint (generaObstaculo (generaRobot (generaNino (Ambiente {ninos = [], corral = cor1, obstaculo = [], robot = [], suciedad = suc1,lrandom = ran1, dimension = (n1,m1)}) cnin) crob) cobs) (generaObstaculo (generaRobot (generaNino (Ambiente {ninos = [], corral = cor2, obstaculo = [], robot = [], suciedad = suc2,lrandom = ran2, dimension = (n2,m2)}) cnin) crob) cobs) tmpC tmpC cnin crob cobs
         else do
-            pintaTablero2 amb1 amb2 n m True
-            putStr "===Fin del Turno==="
+            pintaTablero2 amb1 amb2 n1 m1 True
+            if ((length suc1) > (div (3*((n1*m1) - ((length nin1)+(length cor1)+(length obs1)+(length rob1)))) 5)) && ((length suc2) > (div (3*((n2*m2) - ((length nin2)+(length cor2)+(length obs2)+(length rob2)))) 5)) then putStr "Los tableros  superaron el 60% de suciedad" else if ((length suc1) > (div (3*((n1*m1) - ((length nin1)+(length cor1)+(length obs1)+(length rob1)))) 5)) then putStr "El primer tablero superó el 60% de suciedad" else if ((length suc2) > (div (3*((n2*m2) - ((length nin2)+(length cor2)+(length obs2)+(length rob2)))) 5)) then putStr "El segundo tablero superó el 60% de suciedad" else putStr "===Fin del Turno==="
             l <- getLine
             pint (movNin (movRob1 amb1 crob cnin) (cnin - 1)) (movNin (movRob2 amb2 crob cnin) (cnin - 1)) (tmp - 1) tmpC cnin crob cobs
